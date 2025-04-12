@@ -53,7 +53,7 @@ app.layout = html.Main([
     upload_section,
     command_section,
     html.Script(src="/static/upload-handler.js")
-])
+], className="main__container")
 
 @server.route('/upload_chunk', methods=['POST'])
 def upload_chunk():

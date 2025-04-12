@@ -6,7 +6,8 @@
 
 from dash import html, dcc
 
-message: int = 'Arrastra y suelta o haz clic para seleccionar'
+message: str = 'Arrastra y suelta o haz clic para seleccionar'
+title: str = 'Subida de Archivos con progreso: Drag & drop'
 
 upload_section = html.Section(
     [
@@ -14,20 +15,19 @@ upload_section = html.Section(
             [
                 html.Fieldset(
                     [
-                        html.Legend("Subida de Archivos con Progreso (Drag & Drop): "),
+                        html.Legend(f"{title}"),
                         html.Label(
                             [
                                 dcc.Upload(
                                     id='upload-data',
-                                    children=html.Div(
-                                        [
-                                            html.Strong(f"{message}"),
-                                            html.Small(id='output-data-upload')
-                                        ]
-                                    ),
                                     multiple=False,
-                                    className="upload-data"
-                                )
+                                ),
+                                html.Div(
+                                    [
+                                        html.Strong(f"{message}"),
+                                        html.Small("Esperando archivo...", id='output-data-upload')
+                                    ]
+                                ),
                             ]
                         ),
                         html.Div(
