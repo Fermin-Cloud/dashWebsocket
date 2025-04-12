@@ -18,7 +18,7 @@
     block-size: 100vh;
     block-size: 100dvh;
     padding: 2rem;
-    background-color: #BDDDE4;
+    background-color: #bddde4;
   }
 }
 
@@ -43,14 +43,15 @@
     & button {
       padding-inline: 0.6rem;
       padding-block: 0.4rem;
-      background-color: #9FB3DF;
+      background-color: #9fb3df;
       border: 1px solid rgba(0, 0, 0, 0.1);
       outline: 1px solid transparent;
       cursor: pointer;
       font-size: 0.9em;
       transition: backgroud-color 0.3s ease, outline 0.3s ease;
 
-      &:hover, &:focus-within {
+      &:hover,
+      &:focus-within {
         background-color: #9fb3dfcd;
         outline-color: black;
         outline-offset: 2px;
@@ -59,6 +60,29 @@
 
     & fieldset {
       border: none;
+
+      & legend {
+        font-size: 1.2em;
+        font-weight: bold;
+        position: relative;
+
+        &::after {
+          content: "";
+          margin-block-start: 10px;
+          display: block;
+          height: 1px;
+          width: 100%;
+          background-color: #0071b9;
+          background: linear-gradient(
+            to right,
+            white,
+            black,
+            black,
+            black,
+            white
+          );
+        }
+      }
     }
 
     & > section {
@@ -70,7 +94,7 @@
       border: 2px solid rgba(0, 0, 0, 0.2);
       padding: 0.5rem;
       border-radius: 0.4rem;
-      box-shadow: 0px 1px 0px 2px rgba(0,0,0,0.75);
+      box-shadow: 0px 1px 0px 2px rgba(0, 0, 0, 0.75);
     }
 
     /* section => upload__container */
@@ -82,28 +106,6 @@
       & form {
         & fieldset {
           inline-size: 100%;
-          & legend {
-            font-size: 1.2em;
-            font-weight: bold;
-            position: relative;
-
-            &::after {
-              content: "";
-              margin-block-start: 10px;
-              display: block;
-              height: 1px;
-              width: 100%;
-              background-color: #0071b9;
-              background: linear-gradient(
-                to right,
-                white,
-                black,
-                black,
-                black,
-                white
-              );
-            }
-          }
 
           & label {
             display: block;
@@ -126,7 +128,7 @@
               &:hover {
                 background-color: rgba(0, 0, 0, 0.2);
               }
-              
+
               & strong {
                 color: rgba(0, 0, 0, 1);
               }
@@ -155,8 +157,50 @@
 
     /* section => commands__container */
     & > *:nth-child(2) {
-      inline-size: 100%;
       background-color: none;
+
+      & form {
+        display: block;
+        & fieldset {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+
+          & label {
+            padding-block: 0.2rem;
+            padding-inline: 0.3rem;
+            font-size: 1.2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            
+            & input {
+              font-size: inherit;
+              background-color: transparent;
+              padding-block: 0.2rem;
+              border: none;
+              margin-left: 0.3rem;
+
+              &:focus {
+                outline: 1px solid rgba(0, 0, 0, 0.2);
+              }
+            }
+          }
+
+          & button {
+
+          }
+        }
+      }
+
+      & > div {
+        display: block;
+        block-size: 300px;
+        margin-top: 1rem;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
     }
   }
 }

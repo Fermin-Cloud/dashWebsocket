@@ -5,22 +5,23 @@
 """
 
 import os
-from dash import html
-from flask import Flask, request
-from flask_socketio import SocketIO
 import dash
+from dash import html
+from flask_socketio import SocketIO
 import eventlet
 
 # components
 from components.uploader_section import upload_section
 from components.commands_section import command_section
 
+# routes
+from routes.routes import server 
+
 eventlet.monkey_patch()
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-server = Flask(__name__)
 server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 socketio = SocketIO(server, cors_allowed_origins="*")
 
@@ -55,26 +56,6 @@ app.layout = html.Main([
     html.Script(src="/static/upload-handler.js")
 ], className="main__container")
 
-@server.route('/upload_chunk', methods=['POST'])
-def upload_chunk():
-    """
-    endpoint uploads files
-    """
-    filename = request.headers.get('X-Filename')
-    chunk_index = int(request.headers.get('X-Chunk-Index', 0))
-    total_chunks = int(request.headers.get('X-Total-Chunks', 1))
-
-    if not filename:
-        return 'Missing filename', 400
-
-    file_path = os.path.join(server.config['UPLOAD_FOLDER'], filename)
-
-    with open(file_path, 'ab') as f:
-        f.write(request.data)
-
-    progress = int((chunk_index + 1) / total_chunks * 100)
-    socketio.emit('upload_progress', {'progress': progress})
-    return 'Chunk received', 200
 
 if __name__ == '__main__':
     socketio.run(server, debug=True)
