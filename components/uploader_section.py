@@ -30,6 +30,7 @@ upload_section = html.Section(
                                 ),
                             ]
                         ),
+                        html.Hr(),
                         html.Div(
                             [
                                 html.Button("Clean"),
