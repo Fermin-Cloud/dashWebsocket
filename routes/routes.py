@@ -5,15 +5,6 @@ import socketio
 
 server = Flask(__name__)
 
-@server.route('/up', methods=['GET'])
-def welcome() -> None:
-    """
-    welcome page
-
-    """
-
-    return "hola "
-
 @server.route('/upload_chunk', methods=['POST'])
 def upload_chunk():
     """
@@ -33,4 +24,5 @@ def upload_chunk():
 
     progress = int((chunk_index + 1) / total_chunks * 100)
     socketio.emit('upload_progress', {'progress': progress})
+
     return 'Chunk received', 200

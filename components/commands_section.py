@@ -22,12 +22,13 @@ command_section = html.Section(
                             )
                         ]
                     ),
-                    html.Button("Ejecutar", id="execute-button"),
+                    html.Button("Ejecutar", id="execute-button",  type="button"),
                 ]
             )
         ])
         ,
-        html.Div(id="command-output"),
+        html.Pre(id="command-output"),
     ],
     className="command__container",
 )
+

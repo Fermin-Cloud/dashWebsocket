@@ -1,3 +1,14 @@
+@layer base {
+  :root {
+    --bg-color-primary: #bddde4;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+}
+
 @layer reset {
   * {
     margin: 0;
@@ -18,27 +29,14 @@
     block-size: 100vh;
     block-size: 100dvh;
     padding: 2rem;
-    background-color: #bddde4;
-  }
-}
-
-@layer base {
-  h1,
-  h2 {
-    text-wrap: balance;
+    background-color: var(--bg-color-primary);
   }
 }
 
 @layer layout__ {
   .main__container {
-    block-size: 100%;
-    inline-size: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column nowrap;
     margin: 0 auto;
-    gap: 2.1rem;
+    max-block-size: 1200px;
 
     & button {
       padding-inline: 0.6rem;
@@ -72,62 +70,50 @@
           display: block;
           height: 1px;
           width: 100%;
-          background-color: #0071b9;
           background: linear-gradient(
             to right,
-            white,
+            var(--bg-color-primary),
             black,
             black,
             black,
-            white
+            var(--bg-color-primary)
           );
         }
       }
     }
 
     & > section {
-      min-block-size: max-content;
-      block-size: max-content;
-      flex: 1;
       display: block;
       inline-size: 100%;
       border: 2px solid rgba(0, 0, 0, 0.2);
       padding: 0.5rem;
       border-radius: 0.4rem;
       box-shadow: 0px 1px 0px 2px rgba(0, 0, 0, 0.75);
+      margin-bottom: 2rem;
+      min-inline-size: 460px;
     }
 
     /* section => upload__container */
     & > *:nth-child(1) {
-      & > * {
-        display: block;
-      }
-
       & form {
         & fieldset {
           inline-size: 100%;
+          display: block;
 
-          & label {
-            display: block;
-            overflow: hidden;
-            margin: 2rem auto;
-            inline-size: 80%;
+          & .upload {
+            margin-top: 2rem;
+            border: 2px dashed rgba(0, 0, 0, 0.4);
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
 
-            & input {
-              display: none;
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.2);
             }
 
-            & > *:nth-child(2) {
-              border: 2px dashed rgba(0, 0, 0, 0.4);
-              padding: 0.5rem;
-              text-align: center;
+            & > div {
               display: flex;
               flex-direction: column;
-              cursor: pointer;
-
-              &:hover {
-                background-color: rgba(0, 0, 0, 0.2);
-              }
 
               & strong {
                 color: rgba(0, 0, 0, 1);
@@ -139,7 +125,45 @@
             }
           }
 
-          & > div {
+          & .upload--buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: row nowrap;
+            margin-top: 1rem;
+
+            & progress {
+              background-color: red;
+              margin-right: 0.2rem;
+            }
+
+            & > div {
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+
+               & > *:not(:first-child){
+                margin-left: 0.3rem;
+               }
+
+               & > button {
+                border-radius: 100%;
+                position: relative;
+                padding: 1rem;
+
+                & span {
+                  color: rebeccapurple;
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                }
+              }
+            }
+          }
+
+          & > footer {
             margin-top: 1rem;
             display: flex;
             flex-grow: 1;
@@ -175,7 +199,7 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            
+
             & input {
               font-size: inherit;
               background-color: transparent;
@@ -190,59 +214,21 @@
           }
 
           & button {
-
+            /* nothing */
+            color: inherit;
           }
         }
       }
 
-      & > div {
+      & > pre {
+        padding: 0.4rem;
         display: block;
         block-size: 300px;
         margin-top: 1rem;
         background-color: rgba(0, 0, 0, 0.9);
+        color: white;
+        overflow-y: auto;
       }
     }
   }
 }
-
-/* input {
-  min-inline-size: 320px;
-  padding: 0.5rem;
-  margin-top: 1rem;
-  display: grid;
-  place-content: center;
-  block-size: 100px;
-  inline-size: 100%;
-  background-color: rgb(255, 255, 255);
-  border: 5px dashed rebeccapurple;
-  border-radius: 0.6rem;
-  text-align: center;
-  transition: backgroud-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
-  color: #333;
-  overflow: hidden;
-
-  & > div {
-    font-size: 1.25em;
-    font-weight: 600;
-
-    & > * {
-      display: block;
-    }
-
-    & strong {
-      font-size: inherit;
-      font-weight: inherit;
-    }
-
-    & small {
-      font-size: 0.8em;
-      font-weight: 400;
-    }
-  }
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: white;
-  }
-} */

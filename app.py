@@ -5,8 +5,8 @@
 """
 
 import os
+import subprocess
 import dash
-from dash import html
 from flask_socketio import SocketIO
 import eventlet
 
@@ -17,45 +17,65 @@ from components.commands_section import command_section
 # routes
 from routes.routes import server 
 
-eventlet.monkey_patch()
+# layouts and index
+from layout import layout
+from index import index_string
+
+eventlet.monkey_patch() # concurrencia
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+server.secret_key = b'resturant'
 server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 socketio = SocketIO(server, cors_allowed_origins="*")
 
 app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True)
+app.index_string = index_string
+app.layout = layout
 
-#  Socket.IO en el HTML
-app.index_string = '''
-<!DOCTYPE html>
-<html>
-    <head>
-        {%metas%}
-        <title>{%title%}</title>
-        {%favicon%}
-        {%css%}
-        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-        <link rel="stylesheet" href="./static/styles.css">
-    </head>
-    <body>
-        {%app_entry%}
-        <footer>
-            {%config%}
-            {%scripts%}
-            {%renderer%}
-        </footer>
-    </body>
-</html>
-'''
+# upload
+@app.callback(
+    dash.Output('output-data-upload', 'children'),
+    dash.Input('upload-data', 'filename')
+)
+def show_filename(name):
+    if name:
+        return f"Archivo seleccionado: {name}"
+    return "Esperando archivo..."
 
-app.layout = html.Main([
-    upload_section,
-    command_section,
-    html.Script(src="/static/upload-handler.js")
-], className="main__container")
+# commands
+@app.callback(
+    dash.Output("command-output", "children"),
+    dash.Input("execute-button", "n_clicks"),
+    dash.State("command-input", "value"),
+    prevent_initial_call=True
+)
+def run_command(n, command):
+    if not command:
+        return "No se ingresó un comando"
 
+    def stream_output():
+        proc = subprocess.Popen(
+                    ['bash', '-c', command],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True
+                )
+
+        for line in proc.stdout:
+            socketio.emit("command_output", {"data": line})
+        proc.wait()
+        socketio.emit("command_output", {"data": f"\nProceso terminado con código {proc.returncode}"})
+
+    socketio.start_background_task(stream_output)
+
+    return "Ejecutando comando..."
+
+@socketio.on("connect")
+def handle_connect():
+    print("Cliente conectado")
+    socketio.emit("command_output", {"data": "¡Conectado al WebSocket!\n"})
 
 if __name__ == '__main__':
     socketio.run(server, debug=True)

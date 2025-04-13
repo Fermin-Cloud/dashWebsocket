@@ -1,9 +1,3 @@
-"""
-# bnjmn - bastudillo.alarcon@gmail.com
-#
-# upload and websocket component
-"""
-
 from dash import html, dcc
 
 message: str = 'Arrastra y suelta o haz clic para seleccionar'
@@ -16,27 +10,33 @@ upload_section = html.Section(
                 html.Fieldset(
                     [
                         html.Legend(f"{title}"),
-                        html.Label(
-                            [
-                                dcc.Upload(
-                                    id='upload-data',
-                                    multiple=False,
-                                ),
-                                html.Div(
-                                    [
-                                        html.Strong(f"{message}"),
-                                        html.Small("Esperando archivo...", id='output-data-upload')
-                                    ]
-                                ),
-                            ]
+                        dcc.Upload(
+                            className="upload",
+                            id='upload-data',
+                            multiple=False,
+                            children=html.Div([
+                                html.Strong(f"{message}"),
+                                html.Small("Esperando archivo...", id='output-data-upload'),
+                            ])
                         ),
-                        html.Hr(),
                         html.Div(
                             [
-                                html.Button("Clean"),
-                                html.Button("Click")
+                                html.Progress(value=0, max=100, id='upload-progress'),
+                                html.Div(
+                                    [
+                                        html.Button([html.Span("⏸")], id='pause-btn', type="button"),
+                                        html.Button([html.Span("▶")], id='resume-btn', type="button"),
+                                        html.Button([html.Span("✖")], id='cancel-btn', type="button"),
+                                    ],
+                                )
+                            ], className="upload--buttons"
+                        ),
+                        html.Footer(
+                            [
+                                html.Button("🧹 Limpiar", id='clean-btn', type="button"),
+                                html.Button("⬆ Subir", id='upload-btn', type="button"),
                             ]
-                        )
+                        ),
                     ]
                 )
             ]
