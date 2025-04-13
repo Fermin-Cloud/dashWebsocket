@@ -1,6 +1,15 @@
 @layer base {
   :root {
     --bg-color-primary: #bddde4;
+
+    --text-color: #e3e3e3;
+    --subheading-color: #828282;
+    --placeholder-color: #a6a6a6;
+    --primary-color: #242424;
+    --primary-color-hover: #242424c0;
+    --secondary-color: #383838;
+    --secondary-hover-color: #444;
+    --border-color: rebeccapurple;
   }
 
   h1,
@@ -29,7 +38,8 @@
     block-size: 100vh;
     block-size: 100dvh;
     padding: 2rem;
-    background-color: var(--bg-color-primary);
+    background-color: var(--primary-color);
+    color: var(--text-color);
   }
 }
 
@@ -41,56 +51,43 @@
     & button {
       padding-inline: 0.6rem;
       padding-block: 0.4rem;
-      background-color: #9fb3df;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: var(--primary-color);
+      border: 2px solid var(--secondary-color);
       outline: 1px solid transparent;
       cursor: pointer;
       font-size: 0.9em;
+      color: inherit;
       transition: backgroud-color 0.3s ease, outline 0.3s ease;
 
       &:hover,
       &:focus-within {
-        background-color: #9fb3dfcd;
-        outline-color: black;
+        background-color: var(--primary-color-hover);
+        outline-color: var(--border-color);
         outline-offset: 2px;
       }
     }
 
     & fieldset {
       border: none;
+      
 
       & legend {
+        background: linear-gradient(to right, #6f98e3, #f892f0);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-size: 1.2em;
         font-weight: bold;
-        position: relative;
-
-        &::after {
-          content: "";
-          margin-block-start: 10px;
-          display: block;
-          height: 1px;
-          width: 100%;
-          background: linear-gradient(
-            to right,
-            var(--bg-color-primary),
-            black,
-            black,
-            black,
-            var(--bg-color-primary)
-          );
-        }
       }
     }
 
     & > section {
       display: block;
-      inline-size: 100%;
-      border: 2px solid rgba(0, 0, 0, 0.2);
       padding: 0.5rem;
       border-radius: 0.4rem;
-      box-shadow: 0px 1px 0px 2px rgba(0, 0, 0, 0.75);
       margin-bottom: 2rem;
       min-inline-size: 460px;
+      background-color: var(--primary-color);
+      border: 2px solid var(--secondary-color);
     }
 
     /* section => upload__container */
@@ -101,31 +98,38 @@
           display: block;
 
           & .upload {
-            display: block;
+            margin: 0 auto;
             margin-top: 2rem;
-            border: 2px dashed rgba(0, 0, 0, 0.4);
+            display: block;
+            background-color: var(--primary-color);
             padding: 0.5rem;
-            text-align: center;
             cursor: pointer;
+            inline-size: 80%;
+            block-size: 100px;
+            text-align: center;
+            align-content: center;
+            border: 2px solid var(--secondary-color);
+            border-radius: 0.7rem;
 
-            &:hover, &:focus-visible {
-              background-color: rgba(0, 0, 0, 0.2);
+            &:hover,
+            &:focus-visible {
+              background-color: var(--secondary-hover-color);
             }
 
             & > input {
               display: none;
             }
-            
+
             & > div {
               display: flex;
               flex-direction: column;
 
               & strong {
-                color: rgba(0, 0, 0, 1);
+                color: var(--text-color);
               }
 
               & small {
-                color: rgba(0, 0, 0, 0.5);
+                color: var(--subheading-color);
               }
             }
           }
@@ -148,11 +152,11 @@
               justify-content: center;
               align-items: center;
 
-               & > *:not(:first-child){
+              & > *:not(:first-child) {
                 margin-left: 0.3rem;
-               }
+              }
 
-               & > button {
+              & > button {
                 border-radius: 100%;
                 position: relative;
                 padding: 1rem;

@@ -31,4 +31,3 @@ command_section = html.Section(
     ],
     className="command__container",
 )
-
