@@ -101,16 +101,21 @@
           display: block;
 
           & .upload {
+            display: block;
             margin-top: 2rem;
             border: 2px dashed rgba(0, 0, 0, 0.4);
             padding: 0.5rem;
             text-align: center;
             cursor: pointer;
 
-            &:hover {
+            &:hover, &:focus-visible {
               background-color: rgba(0, 0, 0, 0.2);
             }
 
+            & > input {
+              display: none;
+            }
+            
             & > div {
               display: flex;
               flex-direction: column;

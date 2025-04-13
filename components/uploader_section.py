@@ -1,4 +1,4 @@
-from dash import html, dcc
+from dash import ClientsideFunction, Input, Output, clientside_callback, html, dcc
 
 message: str = 'Arrastra y suelta o haz clic para seleccionar'
 title: str = 'Subida de Archivos con progreso: Drag & drop'
@@ -10,15 +10,17 @@ upload_section = html.Section(
                 html.Fieldset(
                     [
                         html.Legend(f"{title}"),
-                        dcc.Upload(
-                            className="upload",
-                            id='upload-data',
-                            multiple=False,
-                            children=html.Div([
-                                html.Strong(f"{message}"),
-                                html.Small("Esperando archivo...", id='output-data-upload'),
-                            ])
-                        ),
+                        html.Label([
+                            dcc.Input(
+                                id='upload-data',
+                                multiple=False,
+                                type="file"
+                            ),
+                            html.Div([
+                                    html.Strong(f"{message}"),
+                                    html.Small("Esperando archivo...", id='output-data-upload'),
+                                ]),
+                        ], className="upload"),
                         html.Div(
                             [
                                 html.Progress(value=0, max=100, id='upload-progress'),
@@ -33,8 +35,8 @@ upload_section = html.Section(
                         ),
                         html.Footer(
                             [
-                                html.Button("🧹 Limpiar", id='clean-btn', type="button"),
-                                html.Button("⬆ Subir", id='upload-btn', type="button"),
+                                html.Button("🧹 Clean", id='clean-btn', type="button"),
+                                html.Button("⬆ Upload", id='upload-btn', type="button"),
                             ]
                         ),
                     ]
@@ -42,5 +44,20 @@ upload_section = html.Section(
             ]
         )
     ],
-    className="upload__container"
+    className="upload__container"   
+)
+
+clientside_callback(
+    ClientsideFunction(
+        namespace='clientside',
+        function_name='show_selected_filename'
+    ),
+    Output('output-data-upload', 'children'),
+    Input('upload-data', 'value'),  
+)
+
+clientside_callback(
+    ClientsideFunction(namespace='uploadNS', function_name='handleUpload'),
+    # Output('output-data-upload', 'children'),
+    Input('upload-btn', 'n_clicks')
 )

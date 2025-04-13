@@ -22,7 +22,7 @@ command_section = html.Section(
                             )
                         ]
                     ),
-                    html.Button("Ejecutar", id="execute-button",  type="button"),
+                    html.Button("Ejecutar", id="execute-button", type="button"),
                 ]
             )
         ])

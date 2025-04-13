@@ -10,11 +10,5 @@ socket.on("command_output", (msg) => {
     outputDiv.textContent += msg.data;
     outputDiv.scrollTop = outputDiv.scrollHeight;
   }
-
-  if (msg.data.includes("Proceso terminado")) {
-    socket.disconnect();
-    /*
-    very horrible way to end something
-    */
-  }
 });
+

@@ -4,11 +4,14 @@
 # init sv, templates and styles
 """
 
+
 import os
 import subprocess
 import dash
 from flask_socketio import SocketIO
 import eventlet
+
+eventlet.monkey_patch() # concurrencia
 
 # components
 from components.uploader_section import upload_section
@@ -21,7 +24,6 @@ from routes.routes import server
 from layout import layout
 from index import index_string
 
-eventlet.monkey_patch() # concurrencia
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -33,16 +35,6 @@ socketio = SocketIO(server, cors_allowed_origins="*")
 app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True)
 app.index_string = index_string
 app.layout = layout
-
-# upload
-@app.callback(
-    dash.Output('output-data-upload', 'children'),
-    dash.Input('upload-data', 'filename')
-)
-def show_filename(name):
-    if name:
-        return f"Archivo seleccionado: {name}"
-    return "Esperando archivo..."
 
 # commands
 @app.callback(
@@ -70,7 +62,7 @@ def run_command(n, command):
 
     socketio.start_background_task(stream_output)
 
-    return "Ejecutando comando..."
+    return "Ejecutando comando... \n"
 
 @socketio.on("connect")
 def handle_connect():
