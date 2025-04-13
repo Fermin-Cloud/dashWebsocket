@@ -12,17 +12,20 @@ command_section = html.Section(
             html.Fieldset(
                 [
                     html.Legend("Ejecución de Comandos"),
-                    html.Label(
+                    html.Div([
+                        html.Label(
                         [
-                            "Ingresa el comando:",
                             dcc.Input(
                                 id="command-input",
                                 type="text",
                                 placeholder="Ej: ls -l /home",
                             )
-                        ]
-                    ),
-                    html.Button("Ejecutar", id="execute-button", type="button"),
+                        ]),
+                        html.Div([
+                            html.Button("Ejecutar", id="execute-button", type="button"),
+                            html.Button("💡", id="", type="button")
+                        ])
+                    ])
                 ]
             )
         ])
